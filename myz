@@ -1,0 +1,33 @@
+#!/usr/bin/python
+
+import os, optparse, sys
+
+parser = optparse.OptionParser()
+parser.add_option("-t", "--to", dest="to",
+                  default=os.getlogin(),
+                  help="send message to")
+parser.add_option("-f", "--from", dest="fromwho",
+                  metavar="FROM",
+				          default=os.getlogin(),
+                  help="send message from")
+parser.add_option("-e", "--echo", dest="echo",
+                  action="store_true", 
+                  default=False,
+                  help="echo message?")
+parser.add_option("-m", "--message", dest="message",
+                  default="",
+                  help="message to send")
+
+(options, args) = parser.parse_args()
+
+message = options.message
+
+if message == "":
+	print ("Type your message now.  End with control-D or a"+
+	" dot on a line by itself.")
+	message = sys.stdin.read()
+
+os.system("fakeroot -- helper.sh %s %s \"%s\"" % (options.fromwho, options.to, message))
+
+if options.echo:
+	os.system("fakeroot -- helper.sh %s %s \"%s\"" % (options.to, options.fromwho, message))

@@ -1,0 +1,2 @@
+lpr -Uuname foo  # will print as the specified user. Great if you have had too
+                 # many printer warnings :)
